@@ -1,0 +1,73 @@
+Railway CLI is now authenticated!
+
+Since the CLI requires interactive input, please complete the setup manually:
+
+STEP-BY-STEP INSTRUCTIONS:
+=========================
+
+1. INITIALIZE PROJECT:
+   Run this command in your terminal:
+   
+   railway init
+   
+   - Select workspace: dmbpolly-a11y's Projects
+   - Project Name: combridge-polytechnic (or leave blank for random name)
+
+2. ADD MYSQL DATABASE:
+   
+   railway add
+   
+   - Select: MySQL
+
+3. LINK GITHUB REPOSITORY:
+   Go to Railway dashboard:
+   
+   railway open
+   
+   - Click on your service
+   - Go to Settings → Source
+   - Connect to GitHub repository: dmbpolly-a11y/combridge-polytechnic
+   - Select branch: main
+
+4. SET ENVIRONMENT VARIABLES:
+   Run these commands:
+   
+   railway variables set APP_KEY="base64:hE3BMwpHZmltFP2rkssDa8BVf8foyrd+5U7nJWwdQho="
+   railway variables set APP_ENV=production
+   railway variables set APP_DEBUG=false
+   railway variables set DB_CONNECTION=mysql
+   
+   Then in Railway dashboard, add these reference variables:
+   - DB_HOST = ${{MySQL.MYSQL_HOST}}
+   - DB_PORT = ${{MySQL.MYSQL_PORT}}
+   - DB_DATABASE = ${{MySQL.MYSQL_DATABASE}}
+   - DB_USERNAME = ${{MySQL.MYSQL_USER}}
+   - DB_PASSWORD = ${{MySQL.MYSQL_PASSWORD}}
+
+5. DEPLOY:
+   
+   railway up
+   
+   Or trigger deploy from Railway dashboard after connecting GitHub
+
+6. GENERATE DOMAIN:
+   
+   railway domain
+   
+   This will give you a public URL like: combridge-polytechnic.railway.app
+
+7. UPDATE APP_URL:
+   After getting your domain, update:
+   
+   railway variables set APP_URL="https://your-domain.railway.app"
+
+QUICK REFERENCE:
+===============
+railway status      - Check project status
+railway logs        - View logs
+railway open        - Open dashboard
+railway variables   - List variables
+railway shell       - Access service shell
+
+Your GitHub repo is ready at:
+https://github.com/dmbpolly-a11y/combridge-polytechnic
