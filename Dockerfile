@@ -1,5 +1,5 @@
-# Use PHP 8.2 with Apache
-FROM php:8.2-apache
+# Use PHP 8.2 CLI
+FROM php:8.2-cli
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -31,32 +31,31 @@ COPY . /var/www/html
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-dev --no-interaction
 
+# Create storage directories
+RUN mkdir -p storage/framework/{sessions,views,cache} && \
+    mkdir -p storage/logs && \
+    mkdir -p bootstrap/cache
+
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 777 storage bootstrap/cache
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
-
-# Update Apache configuration to point to public directory
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
-# Copy custom Apache configuration
-RUN echo '<Directory /var/www/html/public>\n\
-    Options Indexes FollowSymLinks\n\
-    AllowOverride All\n\
-    Require all granted\n\
-</Directory>' > /etc/apache2/conf-available/laravel.conf
-
-RUN a2enconf laravel
+# Create startup script
+RUN echo '#!/bin/bash\n\
+set -e\n\
+\n\
+# Run migrations\n\
+php artisan migrate --force || true\n\
+\n\
+# Cache config and routes\n\
+php artisan config:cache\n\
+php artisan route:cache\n\
+\n\
+# Start PHP built-in server on PORT environment variable\n\
+php artisan serve --host=0.0.0.0 --port=${PORT:-8000}\n\
+' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
 # Expose port
-EXPOSE 80
+EXPOSE ${PORT:-8000}
 
-# Start Apache
-CMD php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan migrate --force && \
-    apache2-foreground
+# Start the application
+CMD ["/usr/local/bin/start.sh"]
