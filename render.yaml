@@ -26,25 +26,15 @@ services:
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
-        fromDatabase:
-          name: combridge-db
-          property: host
+        value: sql111.infinityfree.com
       - key: DB_PORT
-        fromDatabase:
-          name: combridge-db
-          property: port
+        value: 3306
       - key: DB_DATABASE
-        fromDatabase:
-          name: combridge-db
-          property: database
+        value: if0_42854964_polytechnic
       - key: DB_USERNAME
-        fromDatabase:
-          name: combridge-db
-          property: user
+        value: if0_42854964
       - key: DB_PASSWORD
-        fromDatabase:
-          name: combridge-db
-          property: password
+        value: GVhCdPtrQj0Erv
       - key: SESSION_DRIVER
         value: file
       - key: SESSION_LIFETIME
@@ -66,9 +56,5 @@ services:
       - key: SCHOOL_PO_BOX
         value: P.O. Box 177267, Mbarara
 
-databases:
-  # MySQL Database
-  - name: combridge-db
-    databaseName: combridge_db
-    user: combridge_user
-    plan: free
+# Database configuration removed - use existing database or external MySQL
+# You can connect to your InfinityFree database or existing Render database
