@@ -1,12 +1,10 @@
 services:
-  # Web Service (Laravel App)
   - type: web
     name: combridge-polytechnic
     runtime: docker
     plan: free
     region: oregon
     branch: main
-    healthCheckPath: /
     dockerfilePath: ./Dockerfile
     envVars:
       - key: APP_NAME
@@ -51,10 +49,3 @@ services:
         value: +256 393 258 879
       - key: SCHOOL_WHATSAPP
         value: +256 787 803 099
-      - key: SCHOOL_ADDRESS
-        value: Nyamityobora, Kaboba Mbarara City, 200 meters off Mbarara Masaka Highway
-      - key: SCHOOL_PO_BOX
-        value: P.O. Box 177267, Mbarara
-
-# Database configuration removed - use existing database or external MySQL
-# You can connect to your InfinityFree database or existing Render database
