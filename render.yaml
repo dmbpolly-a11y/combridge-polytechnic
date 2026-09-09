@@ -1,0 +1,83 @@
+services:
+  # Web Service (Laravel App)
+  - type: web
+    name: combridge-polytechnic
+    runtime: docker
+    plan: free
+    region: oregon
+    branch: main
+    healthCheckPath: /
+    buildCommand: |
+      composer install --optimize-autoloader --no-dev
+      php artisan config:clear
+      php artisan cache:clear
+      php artisan view:clear
+    startCommand: |
+      php artisan config:cache
+      php artisan route:cache
+      php artisan migrate --force
+      php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      - key: APP_NAME
+        value: Combridge School Management System
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        value: base64:hE3BMwpHZmltFP2rkssDa8BVf8foyrd+5U7nJWwdQho=
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        sync: false
+      - key: LOG_CHANNEL
+        value: stack
+      - key: LOG_LEVEL
+        value: error
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        fromDatabase:
+          name: combridge-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: combridge-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: combridge-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: combridge-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: combridge-db
+          property: password
+      - key: SESSION_DRIVER
+        value: file
+      - key: SESSION_LIFETIME
+        value: 120
+      - key: CACHE_DRIVER
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: SCHOOL_NAME
+        value: Combridge Centre for Polytechnic Studies
+      - key: SCHOOL_EMAIL
+        value: combridgecentre@gmail.com
+      - key: SCHOOL_PHONE
+        value: +256 393 258 879
+      - key: SCHOOL_WHATSAPP
+        value: +256 787 803 099
+      - key: SCHOOL_ADDRESS
+        value: Nyamityobora, Kaboba Mbarara City, 200 meters off Mbarara Masaka Highway
+      - key: SCHOOL_PO_BOX
+        value: P.O. Box 177267, Mbarara
+
+databases:
+  # MySQL Database
+  - name: combridge-db
+    databaseName: combridge_db
+    user: combridge_user
+    plan: free
