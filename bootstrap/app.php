@@ -17,6 +17,16 @@ $app = new Illuminate\Foundation\Application(
 
 /*
 |--------------------------------------------------------------------------
+| Support Ephemeral Storage for Serverless (Vercel Lambda)
+|--------------------------------------------------------------------------
+| In serverless read-only environments, redirect writable storage to /tmp.
+*/
+if (!empty($_ENV['LARAVEL_STORAGE_PATH']) || !empty(getenv('LARAVEL_STORAGE_PATH'))) {
+    $app->useStoragePath($_ENV['LARAVEL_STORAGE_PATH'] ?? getenv('LARAVEL_STORAGE_PATH'));
+}
+
+/*
+|--------------------------------------------------------------------------
 | Bind Important Interfaces
 |--------------------------------------------------------------------------
 |
