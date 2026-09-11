@@ -1,13 +1,16 @@
 {
   "version": 2,
   "framework": null,
-  "outputDirectory": "public",
   "functions": {
     "api/index.php": {
       "runtime": "vercel-php@0.7.3"
     }
   },
   "routes": [
+    {
+      "src": "/react/assets/(.*)",
+      "dest": "/public/react/assets/$1"
+    },
     {
       "src": "/assets/(.*)",
       "dest": "/public/react/assets/$1"
@@ -29,11 +32,11 @@
       "dest": "/api/index.php"
     },
     {
-      "src": "/(login|register|admin|admin/.*)",
+      "src": "^/(login|register|dashboard|admin|admin/.*)$",
       "dest": "/public/react/index.html"
     },
     {
-      "src": "/$",
+      "src": "^/$",
       "dest": "/public/react/index.html"
     },
     {
@@ -57,3 +60,4 @@
     "LARAVEL_STORAGE_PATH": "/tmp/storage"
   }
 }
+
