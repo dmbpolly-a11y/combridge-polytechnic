@@ -1,15 +1,23 @@
 /vendor
 /node_modules
-/storage/*.key
+/app
+/bootstrap
+/config
+/database
+/routes
+/storage
+/resources/views
+artisan
+composer.json
+composer.lock
+Homestead.json
+Homestead.yaml
 .env
 .env.backup
 .env.local
 .phpunit.result.cache
-Homestead.json
-Homestead.yaml
 npm-debug.log
 yarn-error.log
 *.zip
 docs
-images
 
