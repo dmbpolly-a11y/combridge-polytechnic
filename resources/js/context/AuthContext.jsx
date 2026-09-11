@@ -1,81 +1,95 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { authAPI } from '../api/client';
+import { supabase } from '../lib/supabase';
 
 const AuthContext = createContext(null);
 
-const STORAGE_KEY = 'combridge_user';
-
 export function AuthProvider({ children }) {
-    const [user, setUser]       = useState(() => {
-        try {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            return stored ? JSON.parse(stored) : null;
-        } catch {
-            return null;
-        }
-    });
+    const [user, setUser]       = useState(null);
+    const [profile, setProfile] = useState(null);   // row from 'users' table (roles, name, etc.)
     const [loading, setLoading] = useState(true);
     const [error, setError]     = useState(null);
 
-    // ── Verify session on mount ──────────────────────────────────────────────
+    // ── Load user profile from the 'users' table ─────────────────────────────
+    const loadProfile = useCallback(async (authUser) => {
+        if (!authUser) { setProfile(null); return; }
+        try {
+            const { data } = await supabase
+                .from('users')
+                .select('*, roles(name)')
+                .eq('id', authUser.id)
+                .single();
+            setProfile(data ?? null);
+        } catch {
+            setProfile(null);
+        }
+    }, []);
+
+    // ── Sync Supabase session on mount ────────────────────────────────────────
     useEffect(() => {
-        authAPI.me()
-            .then(({ data }) => {
-                setUser(data.user);
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(data.user));
-            })
-            .catch(() => {
-                setUser(null);
-                localStorage.removeItem(STORAGE_KEY);
-            })
-            .finally(() => setLoading(false));
-    }, []);
+        // Get current session
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            const u = session?.user ?? null;
+            setUser(u);
+            loadProfile(u).finally(() => setLoading(false));
+        });
 
-    // ── Login ────────────────────────────────────────────────────────────────
-    const login = useCallback(async (email, password, remember = false) => {
+        // Listen for auth changes (login, logout, token refresh)
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            const u = session?.user ?? null;
+            setUser(u);
+            loadProfile(u);
+        });
+
+        return () => subscription.unsubscribe();
+    }, [loadProfile]);
+
+    // ── Login ─────────────────────────────────────────────────────────────────
+    const login = useCallback(async (email, password) => {
         setError(null);
-        try {
-            await authAPI.csrf();
-            const { data } = await authAPI.login({ email, password, remember });
-            setUser(data.user);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data.user));
-            return data.user;
-        } catch (err) {
-            const msg = err.response?.data?.message || 'Login failed. Please try again.';
-            setError(msg);
-            throw new Error(msg);
+        const { data, error: err } = await supabase.auth.signInWithPassword({ email, password });
+        if (err) {
+            setError(err.message);
+            throw err;
         }
+        return data.user;
     }, []);
 
-    // ── Logout ───────────────────────────────────────────────────────────────
+    // ── Logout ────────────────────────────────────────────────────────────────
     const logout = useCallback(async () => {
-        try {
-            await authAPI.logout();
-        } finally {
-            setUser(null);
-            localStorage.removeItem(STORAGE_KEY);
-        }
+        await supabase.auth.signOut();
+        setUser(null);
+        setProfile(null);
     }, []);
 
-    // ── Role helpers ─────────────────────────────────────────────────────────
+    // ── Role helpers ──────────────────────────────────────────────────────────
     const hasRole = useCallback((role) => {
-        if (!user?.roles) return false;
-        return user.roles.some(r =>
+        if (!profile?.roles) return false;
+        return profile.roles.some(r =>
             (typeof r === 'string' ? r : r.name) === role
         );
-    }, [user]);
+    }, [profile]);
 
-    const isAdmin      = () => hasRole('administrator') || hasRole('principal');
-    const isTeacher    = () => hasRole('teacher');
-    const isStudent    = () => hasRole('student');
-    const isLibrarian  = () => hasRole('librarian');
+    const isAdmin     = () => hasRole('administrator') || hasRole('principal') || hasRole('director');
+    const isTeacher   = () => hasRole('teacher');
+    const isStudent   = () => hasRole('student');
+    const isLibrarian = () => hasRole('librarian');
+
+    // Merge auth user + profile for convenience
+    const mergedUser = user ? { ...user, ...(profile ?? {}), name: profile?.name ?? user.email } : null;
 
     return (
         <AuthContext.Provider value={{
-            user, loading, error,
-            login, logout,
+            user: mergedUser,
+            loading,
+            error,
+            login,
+            logout,
             isAuthenticated: !!user,
-            hasRole, isAdmin, isTeacher, isStudent, isLibrarian,
+            hasRole,
+            isAdmin,
+            isTeacher,
+            isStudent,
+            isLibrarian,
         }}>
             {children}
         </AuthContext.Provider>

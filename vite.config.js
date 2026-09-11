@@ -5,10 +5,9 @@ import path from 'path';
 export default defineConfig({
     plugins: [react()],
     root: '.',
-    // publicDir false avoids Vite warning about outDir inside publicDir
-    publicDir: false,
+    publicDir: 'public',
     build: {
-        outDir: 'public/react',
+        outDir: 'dist',
         emptyOutDir: true,
         rollupOptions: {
             input: 'index.html',
@@ -21,21 +20,5 @@ export default defineConfig({
     },
     server: {
         port: 5173,
-        // In dev, serve static files from public/ alongside the React app
-        fs: {
-            allow: ['.'],
-        },
-        proxy: {
-            '/api': {
-                target: 'http://localhost:8000',
-                changeOrigin: true,
-                secure: false,
-            },
-            '/sanctum': {
-                target: 'http://localhost:8000',
-                changeOrigin: true,
-                secure: false,
-            },
-        },
     },
 });
