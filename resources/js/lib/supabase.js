@@ -1,12 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl  = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnon = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl  = import.meta.env.VITE_SUPABASE_URL || 'https://dttkkhgvxyqdakfoanzn.supabase.co';
+const supabaseAnon = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-key';
 
-if (!supabaseUrl || !supabaseAnon) {
-    console.error(
-        '[Supabase] Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY env vars.\n' +
-        'Create a .env.local file with these values.'
+if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+    console.warn(
+        '[Supabase] Using default URL or placeholder key.\n' +
+        'Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Vercel or .env.local.'
     );
 }
 
@@ -19,3 +19,4 @@ export const supabase = createClient(supabaseUrl, supabaseAnon, {
 });
 
 export default supabase;
+
