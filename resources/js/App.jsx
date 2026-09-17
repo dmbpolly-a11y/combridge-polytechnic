@@ -22,6 +22,7 @@ import Login           from './pages/Login';
 import AdminDashboard  from './pages/admin/Dashboard';
 import NotFound              from './pages/NotFound';
 import UniversityManagement  from './pages/UniversityManagement';
+import CombridgeManage       from './pages/CombridgeManage';
 
 import './styles/app.css';
 
@@ -97,6 +98,10 @@ export default function App() {
                     {/* University Management */}
                     <Route path="/university-management" element={<Layout><UniversityManagement /></Layout>} />
                     <Route path="/university-management/:portal" element={<Layout><UniversityManagement /></Layout>} />
+
+                    {/* Combridge Manage (System Portals) */}
+                    <Route path="/combridge-manage" element={<Layout><CombridgeManage /></Layout>} />
+                    <Route path="/combridge-manage/:portal" element={<Layout><CombridgeManage /></Layout>} />
 
                     {/* ── 3. Auth (no header/footer) ───────────────── */}
                     <Route path="/login"    element={<Login />} />

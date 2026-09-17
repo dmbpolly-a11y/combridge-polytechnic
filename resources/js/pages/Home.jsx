@@ -145,46 +145,66 @@ export default function Home() {
 
     return (
         <div className="home-page">
-            {/* ── 1. Hero Section with Animated Image Carousel ────────────────── */}
-            <section className="hero-section text-white py-4 py-lg-5 position-relative" style={{ background: 'linear-gradient(135deg, #004d28 0%, #006837 50%, #051566 100%)' }}>
-                <div className="container position-relative py-2">
+            {/* ── 1. Full-Screen Hero Background Carousel ─────────────────────── */}
+            <section className="hero-fullscreen position-relative" style={{ minHeight: '92vh', overflow: 'hidden' }}>
+                {/* Background image slides */}
+                {HERO_IMAGES.map((img, idx) => (
+                    <div
+                        key={idx}
+                        style={{
+                            position: 'absolute',
+                            inset: 0,
+                            opacity: idx === activeSlide ? 1 : 0,
+                            transform: idx === activeSlide ? 'scale(1)' : 'scale(1.05)',
+                            transition: 'opacity 1s ease-in-out, transform 1s ease-in-out',
+                            zIndex: 0,
+                        }}
+                    >
+                        <img
+                            src={img.src}
+                            alt={img.title}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        />
+                    </div>
+                ))}
+
+                {/* Dark overlay for text readability */}
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,60,30,0.62) 0%, rgba(0,40,20,0.75) 60%, rgba(0,20,10,0.88) 100%)', zIndex: 1 }} />
+
+                {/* Hero Content */}
+                <div className="container position-relative py-5" style={{ zIndex: 2, minHeight: '92vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <div className="row align-items-center g-4">
-                        {/* Left: Text & CTA */}
-                        <div className="col-lg-7">
-                            <div className="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(5px)' }}>
+                        <div className="col-lg-8 col-12 text-white">
+                            <div className="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3 animate-fadeInUp" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(6px)', animationDelay: '0.1s' }}>
                                 <i className="fas fa-certificate text-warning"></i>
                                 <span className="small fw-semibold">Accredited by Uganda Registration Services Bureau (URSB)</span>
                             </div>
 
-                            <h1 className="hero-title fw-bold mb-2 text-white" style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)', lineHeight: 1.2 }}>
-                                COMBRIDGE INSTITUTE OF HEALTH MANAGEMENT SCIENCES
+                            <h1 className="fw-bold mb-2 text-white animate-fadeInUp" style={{ fontSize: 'clamp(1.9rem, 4vw, 3.2rem)', lineHeight: 1.15, textShadow: '0 2px 12px rgba(0,0,0,0.5)', animationDelay: '0.2s' }}>
+                                COMBRIDGE INSTITUTE OF<br />HEALTH MANAGEMENT SCIENCES
                             </h1>
 
-                            <h5 className="text-warning fw-semibold mb-2" style={{ fontSize: '1.1rem' }}>
+                            <h5 className="text-warning fw-semibold mb-2 animate-fadeInUp" style={{ fontSize: '1.1rem', animationDelay: '0.35s' }}>
                                 A subsidiary arm of Combridge Centre for Polytechnic Studies
                             </h5>
 
-                            <p className="hero-motto fw-bold mb-3" style={{ color: '#ffdd57', fontStyle: 'italic', fontSize: '1.25rem' }}>
+                            <p className="fw-bold mb-3 animate-fadeInUp" style={{ color: '#ffdd57', fontStyle: 'italic', fontSize: '1.35rem', textShadow: '0 1px 6px rgba(0,0,0,0.4)', animationDelay: '0.45s' }}>
                                 "Enriching The Future and Potentials"
                             </p>
 
-                            <p className="lead opacity-90 mb-4" style={{ fontSize: '1rem', maxWidth: '620px', lineHeight: 1.6 }}>
+                            <p className="lead opacity-95 mb-4 animate-fadeInUp" style={{ fontSize: '1.05rem', maxWidth: '640px', lineHeight: 1.7, textShadow: '0 1px 4px rgba(0,0,0,0.3)', animationDelay: '0.55s' }}>
                                 Specialized in Advisory, Consultancy, and World-Class Training in Health Sciences, Medical Skills, Life Skills, and Institutional Capacity Building in Mbarara City, Uganda.
                             </p>
 
-                            {/* Programme Finder Box */}
-                            <div className="card shadow-lg p-3 bg-white text-dark rounded-4 mb-4" style={{ maxWidth: '620px' }}>
+                            {/* Programme Finder */}
+                            <div className="card shadow-lg p-3 bg-white text-dark rounded-4 mb-4 animate-fadeInUp" style={{ maxWidth: '620px', animationDelay: '0.65s' }}>
                                 <div className="card-body p-1">
                                     <h6 className="fw-bold mb-2 text-success">
                                         <i className="fas fa-search me-2"></i>Find Courses & Training Programmes
                                     </h6>
                                     <form onSubmit={handleSearch} className="row g-2 align-items-center">
                                         <div className="col-md-5 col-12">
-                                            <select
-                                                className="form-select form-select-sm"
-                                                value={searchLevel}
-                                                onChange={(e) => setSearchLevel(e.target.value)}
-                                            >
+                                            <select className="form-select form-select-sm" value={searchLevel} onChange={(e) => setSearchLevel(e.target.value)}>
                                                 <option value="">All Programmes</option>
                                                 <option value="undergraduate-courses">Clinical & Medical Training</option>
                                                 <option value="diploma-courses">Management & Health Diplomas</option>
@@ -193,25 +213,17 @@ export default function Home() {
                                             </select>
                                         </div>
                                         <div className="col-md-4 col-12">
-                                            <input
-                                                type="text"
-                                                className="form-control form-control-sm"
-                                                placeholder="e.g. Clinical, Nursing, French"
-                                                value={searchQuery}
-                                                onChange={(e) => setSearchQuery(e.target.value)}
-                                            />
+                                            <input type="text" className="form-control form-control-sm" placeholder="e.g. Clinical, Nursing, French" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                                         </div>
                                         <div className="col-md-3 col-12">
-                                            <button type="submit" className="btn btn-sm btn-success w-100 fw-bold">
-                                                Explore
-                                            </button>
+                                            <button type="submit" className="btn btn-sm btn-success w-100 fw-bold">Explore</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
 
-                            {/* Quick CTA buttons */}
-                            <div className="d-flex flex-wrap gap-2 pt-1">
+                            {/* CTA Buttons */}
+                            <div className="d-flex flex-wrap gap-2 pt-1 animate-fadeInUp" style={{ animationDelay: '0.75s' }}>
                                 <Link to="/admissions/apply" className="btn btn-warning px-4 py-2 fw-bold text-dark shadow-sm">
                                     <i className="fas fa-paper-plane me-2"></i>Apply Online Now
                                 </Link>
@@ -230,98 +242,63 @@ export default function Home() {
                             </div>
                         </div>
 
-                        {/* Right: Animated Images Carousel */}
-                        <div className="col-lg-5">
-                            <div className="hero-carousel-wrapper position-relative rounded-4 overflow-hidden shadow-lg" style={{ background: '#000', border: '3px solid rgba(255,255,255,0.2)' }}>
-                                <div className="hero-slide-container" style={{ position: 'relative', width: '100%', height: '360px', overflow: 'hidden' }}>
-                                    {HERO_IMAGES.map((img, idx) => (
-                                        <div
-                                            key={idx}
-                                            className="hero-slide-item"
-                                            style={{
-                                                position: 'absolute',
-                                                top: 0,
-                                                left: 0,
-                                                width: '100%',
-                                                height: '100%',
-                                                opacity: idx === activeSlide ? 1 : 0,
-                                                transform: idx === activeSlide ? 'scale(1)' : 'scale(1.04)',
-                                                transition: 'opacity 0.8s ease-in-out, transform 0.8s ease-in-out',
-                                                pointerEvents: idx === activeSlide ? 'auto' : 'none'
-                                            }}
-                                        >
-                                            <img
-                                                src={img.src}
-                                                alt={img.title}
-                                                style={{
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    objectFit: 'cover',
-                                                    display: 'block'
-                                                }}
-                                            />
-                                            {/* Gradient Caption Overlay */}
-                                            <div
-                                                style={{
-                                                    position: 'absolute',
-                                                    bottom: 0,
-                                                    left: 0,
-                                                    right: 0,
-                                                    background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 70%, transparent 100%)',
-                                                    padding: '24px 16px 14px',
-                                                    color: '#fff'
-                                                }}
-                                            >
-                                                <span className="badge bg-success mb-1 small">Photo {idx + 1} of {HERO_IMAGES.length}</span>
-                                                <h6 className="fw-bold mb-1 text-white" style={{ fontSize: '0.95rem' }}>{img.title}</h6>
-                                                <p className="mb-0 text-white-50" style={{ fontSize: '0.8rem' }}>{img.subtitle}</p>
-                                            </div>
-                                        </div>
-                                    ))}
+                        {/* Slide Caption – bottom right */}
+                        <div className="col-lg-4 d-none d-lg-flex flex-column align-items-end justify-content-end" style={{ minHeight: '80vh' }}>
+                            <div className="text-end text-white animate-fadeInUp" style={{ animationDelay: '0.9s' }}>
+                                <div className="badge bg-success mb-2 px-3 py-2" style={{ fontSize: '0.8rem' }}>
+                                    Photo {activeSlide + 1} of {HERO_IMAGES.length}
                                 </div>
-
-                                {/* Carousel Controls */}
-                                <button
-                                    className="btn btn-sm btn-dark position-absolute start-0 top-50 translate-middle-y ms-2 rounded-circle opacity-75 hover-opacity-100 shadow"
-                                    style={{ width: 36, height: 36, zIndex: 10, padding: 0 }}
-                                    onClick={prevSlide}
-                                    aria-label="Previous slide"
-                                >
-                                    <i className="fas fa-chevron-left text-white"></i>
-                                </button>
-                                <button
-                                    className="btn btn-sm btn-dark position-absolute end-0 top-50 translate-middle-y me-2 rounded-circle opacity-75 hover-opacity-100 shadow"
-                                    style={{ width: 36, height: 36, zIndex: 10, padding: 0 }}
-                                    onClick={nextSlide}
-                                    aria-label="Next slide"
-                                >
-                                    <i className="fas fa-chevron-right text-white"></i>
-                                </button>
-
-                                {/* Dot Indicators */}
-                                <div className="position-absolute bottom-0 start-50 translate-middle-x pb-1 d-flex gap-1" style={{ zIndex: 10 }}>
-                                    {HERO_IMAGES.map((_, i) => (
-                                        <button
-                                            key={i}
-                                            onClick={() => setActiveSlide(i)}
-                                            style={{
-                                                width: i === activeSlide ? '20px' : '7px',
-                                                height: '7px',
-                                                borderRadius: '4px',
-                                                border: 'none',
-                                                background: i === activeSlide ? '#ffdd57' : 'rgba(255,255,255,0.5)',
-                                                transition: 'all 0.3s ease-in-out',
-                                                padding: 0
-                                            }}
-                                            aria-label={`Go to slide ${i + 1}`}
-                                        />
-                                    ))}
-                                </div>
+                                <h6 className="fw-bold text-white mb-1" style={{ fontSize: '1rem', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+                                    {HERO_IMAGES[activeSlide].title}
+                                </h6>
+                                <p className="text-white-50 mb-0" style={{ fontSize: '0.85rem' }}>
+                                    {HERO_IMAGES[activeSlide].subtitle}
+                                </p>
                             </div>
                         </div>
                     </div>
+
+                    {/* Slide Indicators */}
+                    <div className="d-flex gap-2 mt-4 justify-content-center justify-content-lg-start animate-fadeInUp" style={{ animationDelay: '1s' }}>
+                        {HERO_IMAGES.map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => setActiveSlide(idx)}
+                                style={{
+                                    width: idx === activeSlide ? 32 : 10,
+                                    height: 10,
+                                    borderRadius: 5,
+                                    background: idx === activeSlide ? '#ffdd57' : 'rgba(255,255,255,0.5)',
+                                    border: 'none',
+                                    padding: 0,
+                                    cursor: 'pointer',
+                                    transition: 'all 0.4s ease',
+                                }}
+                                aria-label={`Slide ${idx + 1}`}
+                            />
+                        ))}
+                    </div>
                 </div>
+
+                {/* Prev/Next Controls */}
+                <button
+                    className="btn btn-dark position-absolute top-50 start-0 translate-middle-y ms-3 rounded-circle shadow"
+                    style={{ width: 42, height: 42, zIndex: 10, padding: 0, opacity: 0.8 }}
+                    onClick={prevSlide}
+                    aria-label="Previous"
+                >
+                    <i className="fas fa-chevron-left text-white"></i>
+                </button>
+                <button
+                    className="btn btn-dark position-absolute top-50 end-0 translate-middle-y me-3 rounded-circle shadow"
+                    style={{ width: 42, height: 42, zIndex: 10, padding: 0, opacity: 0.8 }}
+                    onClick={nextSlide}
+                    aria-label="Next"
+                >
+                    <i className="fas fa-chevron-right text-white"></i>
+                </button>
             </section>
+
 
             {/* ── Official Contact Details Strip (From Image 2) ────────────────── */}
             <section className="py-3 text-white" style={{ background: '#006837', borderBottom: '3px solid #ffdd57' }}>
