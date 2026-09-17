@@ -20,7 +20,8 @@ import Gallery         from './pages/Gallery';
 import Contact         from './pages/Contact';
 import Login           from './pages/Login';
 import AdminDashboard  from './pages/admin/Dashboard';
-import NotFound        from './pages/NotFound';
+import NotFound              from './pages/NotFound';
+import UniversityManagement  from './pages/UniversityManagement';
 
 import './styles/app.css';
 
@@ -92,6 +93,10 @@ export default function App() {
 
                     {/* Contact */}
                     <Route path="/contact" element={<Layout><Contact /></Layout>} />
+
+                    {/* University Management */}
+                    <Route path="/university-management" element={<Layout><UniversityManagement /></Layout>} />
+                    <Route path="/university-management/:portal" element={<Layout><UniversityManagement /></Layout>} />
 
                     {/* ── 3. Auth (no header/footer) ───────────────── */}
                     <Route path="/login"    element={<Login />} />

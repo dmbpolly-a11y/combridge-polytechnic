@@ -286,6 +286,29 @@ export default function Navbar() {
                         </NavLink>
                     </li>
 
+                    {/* 9. UNIVERSITY MANAGEMENT (Dropdown) */}
+                    <li className={`nav-item dropdown ${activeDropdown === 'uni-mgmt' ? 'show' : ''}`}>
+                        <a
+                            className="nav-link dropdown-toggle text-warning fw-semibold"
+                            href="/university-management"
+                            onClick={(e) => toggleDropdown('uni-mgmt', e)}
+                            role="button"
+                            aria-expanded={activeDropdown === 'uni-mgmt'}
+                        >
+                            <i className="fas fa-university me-1"></i> Portals
+                        </a>
+                        <ul className={`dropdown-menu ${activeDropdown === 'uni-mgmt' ? 'show' : ''}`} style={{ minWidth: '260px' }}>
+                            <li><h6 className="dropdown-header text-uppercase" style={{ fontSize: '0.7rem', letterSpacing: '1px' }}>University Management</h6></li>
+                            <li><Link className="dropdown-item" to="/university-management/admin" onClick={closeNav}><i className="fas fa-shield-alt me-2 text-danger"></i>Admin Portal</Link></li>
+                            <li><Link className="dropdown-item" to="/university-management/academic-registrar" onClick={closeNav}><i className="fas fa-user-check me-2 text-primary"></i>Academic Registrar</Link></li>
+                            <li><Link className="dropdown-item" to="/university-management/lecturer" onClick={closeNav}><i className="fas fa-chalkboard-teacher me-2 text-success"></i>Lecturer / Tutor Portal</Link></li>
+                            <li><Link className="dropdown-item" to="/university-management/dean" onClick={closeNav}><i className="fas fa-graduation-cap me-2 text-warning"></i>Dean of Faculty</Link></li>
+                            <li><Link className="dropdown-item" to="/university-management/deputy-registrar" onClick={closeNav}><i className="fas fa-user-tie me-2 text-info"></i>Deputy Academic Registrar</Link></li>
+                            <li><hr className="dropdown-divider" /></li>
+                            <li><Link className="dropdown-item fw-semibold text-success" to="/university-management" onClick={closeNav}><i className="fas fa-th-large me-2"></i>All Portals Overview</Link></li>
+                        </ul>
+                    </li>
+
                     {/* Portal Menu for Authenticated Users */}
                     {isAuthenticated && (
                         <li className="nav-item dropdown ms-lg-auto">
