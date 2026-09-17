@@ -157,34 +157,69 @@ export default function About() {
 
                                     <div className="row g-4 mb-4">
                                         <div className="col-md-6">
-                                            <div className="p-4 rounded-3 h-100 border-start border-4 border-success bg-light">
-                                                <h4 className="fw-bold text-success mb-3"><i className="fas fa-eye me-2"></i>Our Vision</h4>
-                                                <p className="lead mb-0 text-dark" style={{ fontSize: '1.05rem' }}>
-                                                    To be a premier center of excellence in technical, vocational, and business education in East Africa, producing highly competent, ethical, and innovative professionals.
+                                            <div className="p-4 rounded-3 h-100 border-start border-4 border-success bg-light shadow-sm">
+                                                <h4 className="fw-bold text-success mb-3"><i className="fas fa-eye me-2"></i>VISION</h4>
+                                                <p className="lead mb-0 text-dark fw-semibold" style={{ fontSize: '1.05rem', lineHeight: 1.6 }}>
+                                                    Empower African and Global Higher Education to Fuel Skilled, Productive Workforces Globally.
                                                 </p>
                                             </div>
                                         </div>
                                         <div className="col-md-6">
-                                            <div className="p-4 rounded-3 h-100 border-start border-4 border-primary bg-light">
-                                                <h4 className="fw-bold text-primary mb-3"><i className="fas fa-rocket me-2"></i>Our Mission</h4>
-                                                <p className="lead mb-0 text-dark" style={{ fontSize: '1.05rem' }}>
-                                                    To provide accessible, high-quality, practical technical and vocational training that fosters entrepreneurship, lifelong learning, and socioeconomic transformation.
+                                            <div className="p-4 rounded-3 h-100 border-start border-4 border-primary bg-light shadow-sm">
+                                                <h4 className="fw-bold text-primary mb-3"><i className="fas fa-rocket me-2"></i>MISSION</h4>
+                                                <p className="lead mb-0 text-dark fw-semibold" style={{ fontSize: '1.05rem', lineHeight: 1.6 }}>
+                                                    Partner With Institutions to Boost Education Quality, Employability and Economic Growth.
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <h4 className="fw-bold mt-4 mb-3" style={{ color: 'var(--primary-color)' }}>Our Core Values</h4>
+                                    <h4 className="fw-bold mt-4 mb-3" style={{ color: '#006837' }}>CORE VALUES</h4>
+                                    <div className="p-3 mb-4 rounded-3 bg-light border-start border-4 border-success">
+                                        <p className="fw-bold fs-5 mb-0" style={{ color: '#006837' }}>
+                                            Integrity, Innovation, Inclusion and Collaboration for Sustainable Human Capital Development.
+                                        </p>
+                                    </div>
+
+                                    <h4 className="fw-bold mt-4 mb-3" style={{ color: '#006837' }}>STRATEGIC GOALS</h4>
+                                    <div className="row g-3 mb-4">
+                                        <div className="col-md-6">
+                                            <div className="card border-0 bg-light p-3 rounded-3 h-100 shadow-sm">
+                                                <div className="d-flex gap-2">
+                                                    <i className="fas fa-check-circle text-success mt-1"></i>
+                                                    <div>
+                                                        <h6 className="fw-bold mb-1">Labour Market Alignment</h6>
+                                                        <p className="small text-muted mb-0">Achieve A Strong Alignment Between Graduates' Skills, Competencies And The Labour Market Needs.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="card border-0 bg-light p-3 rounded-3 h-100 shadow-sm">
+                                                <div className="d-flex gap-2">
+                                                    <i className="fas fa-check-circle text-success mt-1"></i>
+                                                    <div>
+                                                        <h6 className="fw-bold mb-1">Financial Independence</h6>
+                                                        <p className="small text-muted mb-0">Ensure Graduates Achieve Skills And Financial Independence For Lifelong Success.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h4 className="fw-bold mt-4 mb-3" style={{ color: '#006837' }}>STRATEGIC PILLARS AND OBJECTIVES</h4>
                                     <div className="row g-3">
                                         {[
-                                            { title: 'Integrity & Ethics', desc: 'Upholding transparency, honesty, and accountability across all academic and community dealings.' },
-                                            { title: 'Practical Competence', desc: 'Focusing on hands-on workshop, laboratory, and field skills that directly solve real-world problems.' },
-                                            { title: 'Innovation & Creativity', desc: 'Nurturing innovative thinking, technological adaptability, and entrepreneurial spirit.' },
-                                            { title: 'Community Transformation', desc: 'Dedication to positive impact on society through accessible education and technical services.' },
+                                            { title: 'Skills Alignment', desc: 'Strengthen Skills aligning graduates with labor market demands.', icon: 'fas fa-tools' },
+                                            { title: 'Institutional Capacity', desc: 'Enhance institutional capacity for quality and relevance.', icon: 'fas fa-university' },
+                                            { title: 'Human Capital Growth', desc: 'Drive Human Capital growth supporting productivity and economic progress.', icon: 'fas fa-chart-line' },
+                                            { title: 'Global Partnerships', desc: 'Foster partnerships that expand opportunities locally and globally.', icon: 'fas fa-globe' },
                                         ].map((v, i) => (
                                             <div key={i} className="col-md-6">
-                                                <div className="p-3 bg-light rounded-2 border">
-                                                    <h6 className="fw-bold text-success"><i className="fas fa-check-circle me-2"></i>{v.title}</h6>
+                                                <div className="card border-0 bg-light p-3 rounded-3 h-100 shadow-sm">
+                                                    <h6 className="fw-bold text-success mb-1">
+                                                        <i className={`${v.icon} me-2 text-warning`}></i>{v.title}
+                                                    </h6>
                                                     <p className="small text-muted mb-0">{v.desc}</p>
                                                 </div>
                                             </div>
@@ -203,19 +238,21 @@ export default function About() {
                                             <small className="text-muted">A Journey of Educational Empowerment</small>
                                         </div>
                                     </div>
-                                    <p className="lead">
-                                        Founded with a visionary purpose to close the practical skills gap in Uganda, Combridge Centre for Polytechnic Studies has grown into a leading hub for polytechnic education.
+                                    <p className="lead" style={{ color: '#006837' }}>
+                                        <strong>COMBRIDGE INSTITUTE OF HEALTH AND MANAGEMENT SCIENCES</strong> is a subsidiary arm of <strong>COMBRIDGE CENTRE FOR POLYTECHNIC STUDIES</strong>.
                                     </p>
                                     <p>
-                                        Recognizing that youth employment and national development hinge upon vocational and technological capability, the founders established state-of-the-art computer laboratories, automotive workshops, and business lecture theaters. Over the years, the institution has trained thousands of technicians, network engineers, accountants, and entrepreneurs who now lead impactful careers across Uganda and beyond.
+                                        It is a newly established firm located at <strong>Nyamityobora, Kakoba Division, Mbarara City, 200 meters off Mbarara Masaka Highway</strong>. Combridge Centre for Polytechnic Studies is registered with <strong>Uganda Registration Services Bureau (URSB)</strong> as a private organization which is specialized in the Advisory and Consultancy services in the areas of higher education and health sciences sectors.
                                     </p>
-                                    <div className="p-3 bg-light rounded-3 my-4 border-start border-4 border-warning">
-                                        <h6 className="fw-bold mb-1">Key Institutional Milestones</h6>
-                                        <ul className="mb-0 small text-muted">
-                                            <li><strong>2010:</strong> Established with initial departments in Information Technology and Business Studies.</li>
-                                            <li><strong>2015:</strong> Expanded to full Technical Trades: Electrical Engineering, Mechanical Engineering, and Building Construction.</li>
-                                            <li><strong>2020:</strong> Launched modern e-learning facilities, biometric attendance integration, and online registration.</li>
-                                            <li><strong>Present:</strong> Over 2,300 active learners, 850+ graduates, and 25+ accredited certificate and diploma programs.</li>
+                                    <div className="p-4 bg-light rounded-3 my-4 border-start border-4 border-success shadow-sm">
+                                        <h6 className="fw-bold mb-2 text-success">Key Areas of Advisory & Professional Expertise</h6>
+                                        <ul className="mb-0 small text-dark" style={{ lineHeight: 1.8 }}>
+                                            <li><strong>Clinical & Medical Training:</strong> Medical laboratory skills, clinical placements, and patient care mentorship.</li>
+                                            <li><strong>Research & Academic Guidance:</strong> Research tutorials, teaching quality enhancement, and academic growth.</li>
+                                            <li><strong>Life Skills & Foreign Languages:</strong> Russian, Chinese, French, Spanish, and Portuguese language coaching.</li>
+                                            <li><strong>Entrepreneurship:</strong> Practical training to prepare graduates for self-reliance and innovation.</li>
+                                            <li><strong>Institutional Growth:</strong> Management, leadership skills, strategic thinking, and corporate branding.</li>
+                                            <li><strong>Partnerships & Collaborations:</strong> Connecting students and employers for internships and community development.</li>
                                         </ul>
                                     </div>
                                 </div>

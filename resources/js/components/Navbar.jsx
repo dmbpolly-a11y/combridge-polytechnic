@@ -44,8 +44,8 @@ export default function Navbar() {
                             alt="Logo"
                             style={{ height: '36px', backgroundColor: '#fff', borderRadius: '4px', padding: '2px', marginRight: '8px' }}
                         />
-                        <span className="fw-bold text-uppercase" style={{ fontSize: '0.85rem', letterSpacing: '0.5px' }}>
-                            Combridge Polytechnic
+                        <span className="fw-bold text-uppercase text-truncate" style={{ fontSize: '0.82rem', letterSpacing: '0.3px' }}>
+                            Combridge Health & Management Sciences
                         </span>
                     </Link>
                     <button
