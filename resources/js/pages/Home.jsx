@@ -122,11 +122,11 @@ export default function Home() {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeSlide, setActiveSlide] = useState(0);
 
-    // Auto-advance hero carousel with smooth animation
+    // Auto-advance hero carousel with smooth 6-second animation
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveSlide(prev => (prev + 1) % HERO_IMAGES.length);
-        }, 4500);
+        }, 6000);
         return () => clearInterval(interval);
     }, []);
 
@@ -242,41 +242,84 @@ export default function Home() {
                             </div>
                         </div>
 
-                        {/* Slide Caption – bottom right */}
-                        <div className="col-lg-4 d-none d-lg-flex flex-column align-items-end justify-content-end" style={{ minHeight: '80vh' }}>
-                            <div className="text-end text-white animate-fadeInUp" style={{ animationDelay: '0.9s' }}>
-                                <div className="badge bg-success mb-2 px-3 py-2" style={{ fontSize: '0.8rem' }}>
-                                    Photo {activeSlide + 1} of {HERO_IMAGES.length}
+                        {/* Right Column Interactive Photo Card Carousel (Matches User Uploaded Screenshot) */}
+                        <div className="col-lg-5 col-12 ms-auto">
+                            <div className="card border-0 shadow-lg rounded-4 overflow-hidden position-relative bg-dark text-white" style={{ border: '3px solid rgba(255,255,255,0.25)', boxShadow: '0 12px 36px rgba(0,0,0,0.5)' }}>
+                                {/* Slide Image Window */}
+                                <div className="position-relative" style={{ height: '330px', overflow: 'hidden', background: '#000' }}>
+                                    <img
+                                        src={HERO_IMAGES[activeSlide].src}
+                                        alt={HERO_IMAGES[activeSlide].title}
+                                        key={activeSlide}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                            display: 'block',
+                                            transition: 'transform 0.8s ease-in-out',
+                                        }}
+                                    />
+
+                                    {/* PHOTO X OF 7 Badge */}
+                                    <div className="position-absolute top-0 start-0 m-3 z-3">
+                                        <span className="badge bg-success text-uppercase px-3 py-2 fw-bold shadow-sm" style={{ fontSize: '0.78rem', letterSpacing: '0.5px', background: '#006837' }}>
+                                            PHOTO {activeSlide + 1} OF {HERO_IMAGES.length}
+                                        </span>
+                                    </div>
+
+                                    {/* Left Arrow Button */}
+                                    <button
+                                        className="btn btn-dark rounded-circle position-absolute top-50 start-0 translate-middle-y ms-2 shadow"
+                                        style={{ width: 38, height: 38, opacity: 0.85, padding: 0, zIndex: 10, background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.3)' }}
+                                        onClick={prevSlide}
+                                        aria-label="Previous photo"
+                                    >
+                                        <i className="fas fa-chevron-left text-white"></i>
+                                    </button>
+
+                                    {/* Right Arrow Button */}
+                                    <button
+                                        className="btn btn-dark rounded-circle position-absolute top-50 end-0 translate-middle-y me-2 shadow"
+                                        style={{ width: 38, height: 38, opacity: 0.85, padding: 0, zIndex: 10, background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.3)' }}
+                                        onClick={nextSlide}
+                                        aria-label="Next photo"
+                                    >
+                                        <i className="fas fa-chevron-right text-white"></i>
+                                    </button>
                                 </div>
-                                <h6 className="fw-bold text-white mb-1" style={{ fontSize: '1rem', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
-                                    {HERO_IMAGES[activeSlide].title}
-                                </h6>
-                                <p className="text-white-50 mb-0" style={{ fontSize: '0.85rem' }}>
-                                    {HERO_IMAGES[activeSlide].subtitle}
-                                </p>
+
+                                {/* Caption & Indicators Box below image */}
+                                <div className="p-3" style={{ background: '#111827', borderTop: '2px solid rgba(255,255,255,0.1)' }}>
+                                    <h6 className="fw-bold text-white mb-1" style={{ fontSize: '1rem' }}>
+                                        {HERO_IMAGES[activeSlide].title}
+                                    </h6>
+                                    <p className="text-white-50 mb-2 small" style={{ fontSize: '0.84rem' }}>
+                                        {HERO_IMAGES[activeSlide].subtitle}
+                                    </p>
+
+                                    {/* Dot Indicators */}
+                                    <div className="d-flex gap-1.5 justify-content-center pt-1">
+                                        {HERO_IMAGES.map((_, idx) => (
+                                            <button
+                                                key={idx}
+                                                onClick={() => setActiveSlide(idx)}
+                                                style={{
+                                                    width: idx === activeSlide ? 26 : 8,
+                                                    height: 8,
+                                                    borderRadius: 4,
+                                                    background: idx === activeSlide ? '#ffdd57' : 'rgba(255,255,255,0.35)',
+                                                    border: 'none',
+                                                    padding: 0,
+                                                    cursor: 'pointer',
+                                                    transition: 'all 0.3s ease',
+                                                }}
+                                                aria-label={`Go to slide ${idx + 1}`}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    {/* Slide Indicators */}
-                    <div className="d-flex gap-2 mt-4 justify-content-center justify-content-lg-start animate-fadeInUp" style={{ animationDelay: '1s' }}>
-                        {HERO_IMAGES.map((_, idx) => (
-                            <button
-                                key={idx}
-                                onClick={() => setActiveSlide(idx)}
-                                style={{
-                                    width: idx === activeSlide ? 32 : 10,
-                                    height: 10,
-                                    borderRadius: 5,
-                                    background: idx === activeSlide ? '#ffdd57' : 'rgba(255,255,255,0.5)',
-                                    border: 'none',
-                                    padding: 0,
-                                    cursor: 'pointer',
-                                    transition: 'all 0.4s ease',
-                                }}
-                                aria-label={`Slide ${idx + 1}`}
-                            />
-                        ))}
                     </div>
                 </div>
 

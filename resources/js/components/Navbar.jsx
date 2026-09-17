@@ -66,6 +66,32 @@ export default function Navbar() {
                         </NavLink>
                     </li>
 
+                    {/* COMBRIDGE MANAGE (Prominent Portal Link) */}
+                    <li className={`nav-item dropdown ${activeDropdown === 'combridge-manage' ? 'show' : ''}`}>
+                        <a
+                            className="nav-link dropdown-toggle text-dark fw-bold px-3 py-2 rounded-3 me-lg-2 my-1 my-lg-0 shadow-sm"
+                            style={{ background: '#ffdd57', border: '1px solid #eab308' }}
+                            href="/combridge-manage"
+                            onClick={(e) => toggleDropdown('combridge-manage', e)}
+                            role="button"
+                            aria-expanded={activeDropdown === 'combridge-manage'}
+                        >
+                            <i className="fas fa-cogs text-dark me-1"></i> Combridge Manage
+                        </a>
+                        <ul className={`dropdown-menu ${activeDropdown === 'combridge-manage' ? 'show' : ''}`} style={{ minWidth: '280px' }}>
+                            <li><h6 className="dropdown-header text-uppercase text-success fw-bold" style={{ fontSize: '0.72rem', letterSpacing: '1px' }}>System Portals</h6></li>
+                            <li><Link className="dropdown-item" to="/combridge-manage/admin" onClick={closeNav}><i className="fas fa-shield-alt me-2 text-danger"></i>Admin Portal</Link></li>
+                            <li><Link className="dropdown-item" to="/combridge-manage/academic-registrar" onClick={closeNav}><i className="fas fa-user-check me-2 text-primary"></i>Academic Registrar</Link></li>
+                            <li><Link className="dropdown-item" to="/combridge-manage/lecturer" onClick={closeNav}><i className="fas fa-chalkboard-teacher me-2 text-success"></i>Lecturer / Tutor Portal</Link></li>
+                            <li><Link className="dropdown-item" to="/combridge-manage/dean" onClick={closeNav}><i className="fas fa-graduation-cap me-2 text-warning"></i>Dean Clinical & Medicine</Link></li>
+                            <li><Link className="dropdown-item" to="/combridge-manage/deputy-registrar" onClick={closeNav}><i className="fas fa-user-tie me-2 text-info"></i>Deputy Academic Registrar</Link></li>
+                            <li><Link className="dropdown-item" to="/combridge-manage/bursar" onClick={closeNav}><i className="fas fa-coins me-2 text-success"></i>Bursar Portal</Link></li>
+                            <li><Link className="dropdown-item" to="/combridge-manage/library" onClick={closeNav}><i className="fas fa-book-reader me-2 text-primary"></i>Library Admin Portal</Link></li>
+                            <li><hr className="dropdown-divider" /></li>
+                            <li><Link className="dropdown-item fw-bold text-success" to="/combridge-manage" onClick={closeNav}><i className="fas fa-th-large me-2"></i>All Portals Dashboard</Link></li>
+                        </ul>
+                    </li>
+
                     {/* 1. ABOUT US (Mega Dropdown) */}
                     <li className={`nav-item dropdown ${activeDropdown === 'about' ? 'show' : ''}`}>
                         <a
@@ -284,31 +310,6 @@ export default function Navbar() {
                         <NavLink to="/contact" className={linkClass} onClick={closeNav}>
                             Contact
                         </NavLink>
-                    </li>
-
-                    {/* 9. COMBRIDGE MANAGE (Portals Dropdown) */}
-                    <li className={`nav-item dropdown ${activeDropdown === 'combridge-manage' ? 'show' : ''}`}>
-                        <a
-                            className="nav-link dropdown-toggle text-warning fw-bold"
-                            href="/combridge-manage"
-                            onClick={(e) => toggleDropdown('combridge-manage', e)}
-                            role="button"
-                            aria-expanded={activeDropdown === 'combridge-manage'}
-                        >
-                            <i className="fas fa-cogs me-1"></i> Combridge Manage
-                        </a>
-                        <ul className={`dropdown-menu ${activeDropdown === 'combridge-manage' ? 'show' : ''}`} style={{ minWidth: '280px' }}>
-                            <li><h6 className="dropdown-header text-uppercase text-success fw-bold" style={{ fontSize: '0.72rem', letterSpacing: '1px' }}>System Portals</h6></li>
-                            <li><Link className="dropdown-item" to="/combridge-manage/admin" onClick={closeNav}><i className="fas fa-shield-alt me-2 text-danger"></i>Admin Portal</Link></li>
-                            <li><Link className="dropdown-item" to="/combridge-manage/academic-registrar" onClick={closeNav}><i className="fas fa-user-check me-2 text-primary"></i>Academic Registrar</Link></li>
-                            <li><Link className="dropdown-item" to="/combridge-manage/lecturer" onClick={closeNav}><i className="fas fa-chalkboard-teacher me-2 text-success"></i>Lecturer / Tutor Portal</Link></li>
-                            <li><Link className="dropdown-item" to="/combridge-manage/dean" onClick={closeNav}><i className="fas fa-graduation-cap me-2 text-warning"></i>Dean Clinical & Medicine</Link></li>
-                            <li><Link className="dropdown-item" to="/combridge-manage/deputy-registrar" onClick={closeNav}><i className="fas fa-user-tie me-2 text-info"></i>Deputy Academic Registrar</Link></li>
-                            <li><Link className="dropdown-item" to="/combridge-manage/bursar" onClick={closeNav}><i className="fas fa-coins me-2 text-success"></i>Bursar Portal</Link></li>
-                            <li><Link className="dropdown-item" to="/combridge-manage/library" onClick={closeNav}><i className="fas fa-book-reader me-2 text-primary"></i>Library Admin Portal</Link></li>
-                            <li><hr className="dropdown-divider" /></li>
-                            <li><Link className="dropdown-item fw-bold text-success" to="/combridge-manage" onClick={closeNav}><i className="fas fa-th-large me-2"></i>All Portals Dashboard</Link></li>
-                        </ul>
                     </li>
 
                     {/* Portal Menu for Authenticated Users */}
