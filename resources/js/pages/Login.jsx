@@ -59,10 +59,18 @@ export default function Login() {
                 {/* Header */}
                 <div className="login-card-header">
                     <img
-                        src="/images/combridge.jpeg"
-                        alt="Combridge Logo"
-                        style={{ height: 80, borderRadius: 12, marginBottom: '0.75rem' }}
-                        onError={(e) => { e.target.style.display = 'none'; }}
+                        src="/images/logocom.png"
+                        alt="Combridge Polytechnic Logo"
+                        style={{
+                            height: 85,
+                            width: 'auto',
+                            objectFit: 'contain',
+                            backgroundColor: '#ffffff',
+                            borderRadius: '12px',
+                            padding: '6px',
+                            marginBottom: '0.75rem',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+                        }}
                     />
                     <h3 className="fw-bold mb-1">Combridge Polytechnic</h3>
                     <p className="mb-0 opacity-80" style={{ fontSize: '0.9rem' }}>

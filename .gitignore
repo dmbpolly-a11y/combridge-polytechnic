@@ -1,35 +1,28 @@
 # Dependencies
 /node_modules
-/vendor
 
-# Build output
+# Production build output
 /dist
-/public/build
-/public/hot
-/public/react
 
-# Laravel
-/public/storage
-/storage/*.key
-.phpunit.cache
-.phpunit.result.cache
-
-# Environment files (secrets)
+# Environment files
 .env
 .env.local
-.env.backup
-.env.production
-# .env.example is kept (it has no secrets)
+.env.development.local
+.env.test.local
+.env.production.local
 
-# IDE / OS
-Homestead.json
-Homestead.yaml
-auth.json
-/.fleet
-/.idea
-/.vscode
-npm-debug.log
-yarn-error.log
-
-# Vercel
+# Vercel deployment
 .vercel
+
+# IDE & OS
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+
+# Legacy/redundant subfolder if present
+combridge-polytechnic-vite/

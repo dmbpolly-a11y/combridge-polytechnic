@@ -1,132 +1,88 @@
-# Combridge Polytechnic System
+# Combridge Centre for Polytechnic Studies
 
-A comprehensive school management system built with Laravel.
+A modern, responsive web application and academic portal for **Combridge Centre for Polytechnic Studies**, built with **React**, **Vite**, and **Bootstrap 5**.
 
-## 🚀 Quick Deploy to Render.com (FREE)
-
-Click the button below to deploy instantly:
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/dmbpolly-a11y/combridge-polytechnic)
-
-### Or use this link:
-**https://render.com/deploy?repo=https://github.com/dmbpolly-a11y/combridge-polytechnic**
+Featuring navigation, pages, and subpages styled after the **University of Saint Joseph (USJ)** website structure (`usj.ac.ug`), with complete integration of the official institution logo (`logocom.png`).
 
 ---
 
-## 📋 Features
+## 🚀 Live Deployment (Vercel)
 
-- Student Management
-- Teacher Management
-- Attendance Tracking (QR Code)
-- Examination & Grading System
-- Fee Management
-- Library Management
-- Timetable Management
-- Communication System
-- Reports & Analytics
-- Department & Programme Management
+The application is pre-configured for automatic single-page application (SPA) deployment on **Vercel** via `vercel.json`.
 
----
-
-## 🛠️ Tech Stack
-
-- **Framework**: Laravel 10
-- **PHP Version**: 8.2
-- **Database**: MySQL
-- **Authentication**: Laravel Sanctum
-- **PDF Generation**: DomPDF
-- **Excel Export**: Maatwebsite Excel
-- **Permissions**: Spatie Laravel Permission
-
----
-
-## 📦 Local Installation
-
-### Requirements:
-- PHP 8.1 or higher
-- Composer
-- MySQL
-- Node.js & NPM
-
-### Steps:
-
-1. Clone the repository:
 ```bash
-git clone https://github.com/dmbpolly-a11y/combridge-polytechnic.git
-cd combridge-polytechnic
+# Deploy with Vercel CLI
+npx vercel
 ```
 
-2. Install dependencies:
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend Framework**: React 18
+- **Build Tool / Bundler**: Vite 5
+- **Routing**: React Router DOM (v6)
+- **Styling**: Vanilla CSS, Bootstrap 5.3, Font Awesome 6
+- **State & Backend**: Context API, Supabase JS Client
+- **Data Visualization**: Chart.js & React-ChartJS-2
+
+---
+
+## 🌐 Pages & Structure
+
+### Public Pages & Cloned USJ Subpages
+- **Home (`/`)**: Course & Programme Finder, enrollment counters, study levels, announcements, and polytechnic news.
+- **About (`/about`, `/about/:subpage`)**:
+  - *Background*: Mission & Vision, Our History, Polytechnic Anthem, Rules & Regulations.
+  - *Governance*: Chancellor, Board of Trustees, Academic Senate, Polytechnic Council, Institutional Policies.
+  - *Management*: Principal, Deputy Principal, Academic Registrar, Library Administration.
+- **Academics (`/academics`, `/academics/:subpage`)**:
+  - *Faculties*: Science & Technology, Business & Management, Technical & Vocational Trades.
+  - *Resources*: Polytechnic Library, E-Learning Portal, Digital Repository.
+  - *Schedules*: Academic Calendar, Teaching Timetable.
+- **Students (`/students`, `/students/:subpage`)**:
+  - *Student Life*: Campus Life, Students' Guild, Games & Sports, Clubs & Societies, Code of Conduct, Alumni.
+  - *Services*: Computing & ICT, Health Clinic, Campus Security, Financial Aid, Chaplaincy.
+  - *Links*: Dean of Students, Admission Lists, Graduation Clearance.
+- **Admissions (`/admissions`, `/admissions/:subpage`)**:
+  - *Programmes*: Diploma, Certificate, Short Courses.
+  - *Requirements*: General Requirements, Fees Structure (2026/2027), Call for Applications, Downloadable Forms.
+  - *How to Apply*: Online Guidelines, Scholarships.
+- **Apply Online (`/admissions/apply`)**: 3-step digital application wizard with instant reference code generation.
+- **Research (`/research`, `/research/:subpage`)**: Grants Office, Innovation Hub, Collaborations, Publications Repository, Policy Downloads.
+- **Notice Board (`/notice-board`)**: Official announcements, circulars, job advertisements, and memorandums.
+- **News & Events (`/news`, `/events`)**: Press releases, academic forums, orientation stories, and community news.
+- **Gallery (`/gallery`)**: Photo gallery of campus workshops, computer labs, practical sessions, and student life.
+- **Contact Us (`/contact`)**: Campus address, office working hours, departmental phone numbers, and interactive inquiry form.
+
+### Portals
+- **Student Portal (`/student/dashboard`)**: Student coursework, results, fees clearance, and attendance.
+- **Teacher Portal (`/teacher/dashboard`)**: Marks entry, lesson logs, and timetable management.
+- **Admin Dashboard (`/admin/dashboard`)**: Institutional administration, user management, and reporting.
+
+---
+
+## 💻 Local Development
+
+### Prerequisites
+- Node.js 18+ & NPM
+
+### Setup & Run
 ```bash
-composer install
+# 1. Install dependencies
 npm install
+
+# 2. Start local Vite development server
+npm run dev
+
+# 3. Build for production (outputs to dist/)
+npm run build
+
+# 4. Preview production build locally
+npm run preview
 ```
-
-3. Create environment file:
-```bash
-cp .env.example .env
-```
-
-4. Generate application key:
-```bash
-php artisan key:generate
-```
-
-5. Configure database in `.env`:
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=your_database
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-```
-
-6. Run migrations:
-```bash
-php artisan migrate
-```
-
-7. Seed database (optional):
-```bash
-php artisan db:seed
-```
-
-8. Start development server:
-```bash
-php artisan serve
-```
-
-Visit: `http://localhost:8000`
-
----
-
-## 🌐 Deployment
-
-### Deploy to Render.com (Recommended - FREE)
-See [DEPLOY_BUTTON.md](DEPLOY_BUTTON.md) for one-click deployment
-
-### Deploy to Railway
-See [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md) for Railway deployment
 
 ---
 
 ## 📄 License
-
-Proprietary
-
----
-
-## 👥 Contact
-
-**Combridge Centre for Polytechnic Studies**
-- Email: combridgecentre@gmail.com
-- Phone: +256 393 258 879
-- WhatsApp: +256 787 803 099
-- Address: Nyamityobora, Kaboba Mbarara City, 200 meters off Mbarara Masaka Highway
-
----
-
-## 🤝 Contributing
-
-This is a proprietary project. For inquiries, contact the school administration.
+All rights reserved &copy; Combridge Centre for Polytechnic Studies.

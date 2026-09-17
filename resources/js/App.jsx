@@ -8,6 +8,16 @@ import Footer      from './components/Footer';
 
 // Pages
 import Home            from './pages/Home';
+import About           from './pages/About';
+import Academics       from './pages/Academics';
+import Students        from './pages/Students';
+import Admissions      from './pages/Admissions';
+import ApplyOnline     from './pages/ApplyOnline';
+import Research        from './pages/Research';
+import NewsEvents      from './pages/NewsEvents';
+import NoticeBoard     from './pages/NoticeBoard';
+import Gallery         from './pages/Gallery';
+import Contact         from './pages/Contact';
 import Login           from './pages/Login';
 import AdminDashboard  from './pages/admin/Dashboard';
 import NotFound        from './pages/NotFound';
@@ -44,49 +54,83 @@ export default function App() {
         <BrowserRouter>
             <AuthProvider>
                 <Routes>
-                    {/* ── Public ───────────────────────────────────── */}
-                    <Route path="/" element={
-                        <Layout><Home /></Layout>
-                    } />
+                    {/* ── 1. Public Home ───────────────────────────── */}
+                    <Route path="/" element={<Layout><Home /></Layout>} />
 
-                    {/* ── Auth (no header/footer) ───────────────────── */}
+                    {/* ── 2. Cloned USJ Pages & Subpages ────────────── */}
+                    {/* About */}
+                    <Route path="/about" element={<Layout><About /></Layout>} />
+                    <Route path="/about/:subpage" element={<Layout><About /></Layout>} />
+
+                    {/* Academics */}
+                    <Route path="/academics" element={<Layout><Academics /></Layout>} />
+                    <Route path="/academics/:subpage" element={<Layout><Academics /></Layout>} />
+
+                    {/* Students */}
+                    <Route path="/students" element={<Layout><Students /></Layout>} />
+                    <Route path="/students/:subpage" element={<Layout><Students /></Layout>} />
+
+                    {/* Admissions */}
+                    <Route path="/admissions" element={<Layout><Admissions /></Layout>} />
+                    <Route path="/admissions/apply" element={<Layout><ApplyOnline /></Layout>} />
+                    <Route path="/admissions/:subpage" element={<Layout><Admissions /></Layout>} />
+
+                    {/* Research */}
+                    <Route path="/research" element={<Layout><Research /></Layout>} />
+                    <Route path="/research/:subpage" element={<Layout><Research /></Layout>} />
+
+                    {/* News & Events */}
+                    <Route path="/news" element={<Layout><NewsEvents /></Layout>} />
+                    <Route path="/news/:id" element={<Layout><NewsEvents /></Layout>} />
+                    <Route path="/events" element={<Layout><NewsEvents /></Layout>} />
+
+                    {/* Notice Board */}
+                    <Route path="/notice-board" element={<Layout><NoticeBoard /></Layout>} />
+
+                    {/* Gallery */}
+                    <Route path="/gallery" element={<Layout><Gallery /></Layout>} />
+
+                    {/* Contact */}
+                    <Route path="/contact" element={<Layout><Contact /></Layout>} />
+
+                    {/* ── 3. Auth (no header/footer) ───────────────── */}
                     <Route path="/login"    element={<Login />} />
-                    <Route path="/register" element={<Login />} />  {/* placeholder */}
+                    <Route path="/register" element={<Login />} />
 
-                    {/* ── Admin (protected) ─────────────────────────── */}
+                    {/* ── 4. Admin (protected) ─────────────────────── */}
                     <Route path="/admin/dashboard" element={
                         <PrivateRoute roles={['administrator', 'principal']}>
                             <Layout><AdminDashboard /></Layout>
                         </PrivateRoute>
                     } />
 
-                    {/* ── Teacher portal (protected) ────────────────── */}
+                    {/* ── 5. Teacher portal (protected) ────────────── */}
                     <Route path="/teacher/dashboard" element={
                         <PrivateRoute roles={['teacher']}>
                             <Layout>
                                 <div className="container py-5 text-center">
-                                    <i className="fas fa-chalkboard-teacher fa-4x mb-3" style={{ color: 'var(--primary-color)' }}></i>
+                                    <i className="fas fa-chalkboard-teacher fa-4x mb-3 text-success"></i>
                                     <h2>Teacher Portal</h2>
-                                    <p className="text-muted">Coming soon — manage attendance, marks, and more.</p>
+                                    <p className="text-muted">Combridge Staff System — manage marks, lesson logs, and timetable.</p>
                                 </div>
                             </Layout>
                         </PrivateRoute>
                     } />
 
-                    {/* ── Student portal (protected) ────────────────── */}
+                    {/* ── 6. Student portal (protected) ────────────── */}
                     <Route path="/student/dashboard" element={
                         <PrivateRoute roles={['student']}>
                             <Layout>
                                 <div className="container py-5 text-center">
-                                    <i className="fas fa-user-graduate fa-4x mb-3" style={{ color: 'var(--primary-color)' }}></i>
+                                    <i className="fas fa-user-graduate fa-4x mb-3 text-success"></i>
                                     <h2>Student Portal</h2>
-                                    <p className="text-muted">Coming soon — view results, fees, and timetable.</p>
+                                    <p className="text-muted">Welcome to the student portal — view coursework marks, timetable, and clearance.</p>
                                 </div>
                             </Layout>
                         </PrivateRoute>
                     } />
 
-                    {/* ── 404 ───────────────────────────────────────── */}
+                    {/* ── 7. 404 ───────────────────────────────────── */}
                     <Route path="*" element={
                         <Layout><NotFound /></Layout>
                     } />
