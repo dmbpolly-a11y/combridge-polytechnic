@@ -60,7 +60,7 @@ const STUDY_LEVELS = [
         title: 'Research & Academic Mentorship',
         badge: 'Higher Education',
         icon: 'fas fa-microscope',
-        color: '#051566',
+        color: '#006837',
         desc: 'Research tutorials, coaching, research guidance, and support for strengthening teaching quality, academic publications, and student career success.',
         link: '/research',
     },
