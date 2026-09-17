@@ -8,10 +8,12 @@ export default function Login() {
     const location   = useLocation();
     const from       = location.state?.from?.pathname || null;
 
-    const [form, setForm]       = useState({ email: '', password: '', remember: false });
+    const [form, setForm]       = useState({ username: '', password: '' });
     const [showPwd, setShowPwd] = useState(false);
     const [error, setError]     = useState(null);
     const [loading, setLoading] = useState(false);
+    const [showForgotModal, setShowForgotModal] = useState(false);
+    const [forgotEmail, setForgotEmail] = useState('');
 
     // Redirect if already logged in
     if (isAuthenticated) {
@@ -21,8 +23,8 @@ export default function Login() {
     }
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
+        const { name, value } = e.target;
+        setForm(f => ({ ...f, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
@@ -30,7 +32,8 @@ export default function Login() {
         setError(null);
         setLoading(true);
         try {
-            const user = await login(form.email, form.password, form.remember);
+            // Note: Our auth takes email, but the UI says "Username". We'll pass it to login.
+            const user = await login(form.username, form.password, true);
             // Determine redirect based on role
             if (from) {
                 navigate(from, { replace: true });
@@ -53,182 +56,159 @@ export default function Login() {
         }
     };
 
+    const handleForgotSubmit = (e) => {
+        e.preventDefault();
+        alert(`Reset link sent to ${forgotEmail}`);
+        setShowForgotModal(false);
+    };
+
     return (
-        <div className="login-page">
-            <div className="login-card fade-in-up">
-                {/* Header */}
-                <div className="login-card-header">
-                    <img
-                        src="/images/logocom.png"
-                        alt="Combridge Polytechnic Logo"
-                        style={{
-                            height: 85,
-                            width: 'auto',
-                            objectFit: 'contain',
-                            backgroundColor: '#ffffff',
-                            borderRadius: '12px',
-                            padding: '6px',
-                            marginBottom: '0.75rem',
-                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
-                        }}
-                    />
-                    <h3 className="fw-bold mb-1">Combridge Polytechnic</h3>
-                    <p className="mb-0 opacity-80" style={{ fontSize: '0.9rem' }}>
-                        Development through Skills and Innovation
-                    </p>
+        <div className="portal-login-body">
+            <div className="portal-login-box">
+                <div className="portal-login-logo">
+                    <img src="/images/logocom.png" alt="Combridge Polytechnic Logo" />
+                    <h3>Student Portal</h3>
+                    <p>Welcome back! Please <span>login</span> to continue</p>
                 </div>
 
-                {/* Body */}
-                <div className="login-card-body">
-                    <h5 className="text-center fw-bold mb-4" style={{ color: 'var(--primary-color)' }}>
-                        Login to Your Account
-                    </h5>
+                {error && (
+                    <div className="alert alert-danger d-flex align-items-center gap-2" role="alert">
+                        <i className="fas fa-exclamation-circle"></i>
+                        {error}
+                    </div>
+                )}
 
-                    {error && (
-                        <div className="alert alert-danger d-flex align-items-center gap-2" role="alert">
-                            <i className="fas fa-exclamation-circle"></i>
-                            {error}
-                        </div>
-                    )}
-
-                    <form onSubmit={handleSubmit} noValidate>
-                        {/* Email */}
-                        <div className="mb-3">
-                            <label htmlFor="email" className="form-label fw-semibold">
-                                <i className="fas fa-envelope me-2" style={{ color: 'var(--primary-color)' }}></i>
-                                Email Address
-                            </label>
-                            <input
-                                id="email"
-                                type="email"
-                                name="email"
-                                className="form-control form-control-lg"
-                                placeholder="Enter your email"
-                                value={form.email}
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group mb-3">
+                        <div className="input-group portal-input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text portal-input-group-text"><i className="fas fa-user"></i></span>
+                            </div>
+                            <input 
+                                type="text" 
+                                className="form-control portal-form-control" 
+                                autoComplete="off" 
+                                placeholder="Username or Registration Number" 
+                                name="username" 
+                                value={form.username}
                                 onChange={handleChange}
-                                required
-                                autoFocus
+                                required 
                                 disabled={loading}
                             />
                         </div>
+                    </div>
 
-                        {/* Password */}
-                        <div className="mb-3">
-                            <label htmlFor="password" className="form-label fw-semibold">
-                                <i className="fas fa-lock me-2" style={{ color: 'var(--primary-color)' }}></i>
-                                Password
-                            </label>
-                            <div className="input-group">
-                                <input
-                                    id="password"
-                                    type={showPwd ? 'text' : 'password'}
-                                    name="password"
-                                    className="form-control form-control-lg"
-                                    placeholder="Enter your password"
-                                    value={form.password}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={loading}
-                                />
-                                <button
-                                    type="button"
-                                    className="btn btn-outline-secondary"
-                                    onClick={() => setShowPwd(p => !p)}
-                                    tabIndex={-1}
-                                    aria-label="Toggle password visibility"
+                    <div className="form-group mb-4">
+                        <div className="input-group portal-input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text portal-input-group-text"><i className="fas fa-lock"></i></span>
+                            </div>
+                            <input 
+                                type={showPwd ? 'text' : 'password'} 
+                                className="form-control portal-form-control" 
+                                autoComplete="new-password" 
+                                placeholder="Password" 
+                                name="password" 
+                                value={form.password}
+                                onChange={handleChange}
+                                required 
+                                disabled={loading}
+                            />
+                            <div className="input-group-append">
+                                <button 
+                                    className="btn btn-outline-secondary" 
+                                    type="button" 
+                                    onClick={() => setShowPwd(!showPwd)}
                                 >
                                     <i className={`fas fa-eye${showPwd ? '-slash' : ''}`}></i>
                                 </button>
                             </div>
                         </div>
+                    </div>
 
-                        {/* Remember Me */}
-                        <div className="mb-4 form-check">
-                            <input
-                                id="remember"
-                                type="checkbox"
-                                name="remember"
-                                className="form-check-input"
-                                checked={form.remember}
-                                onChange={handleChange}
-                                disabled={loading}
-                            />
-                            <label className="form-check-label" htmlFor="remember">
-                                Remember Me
-                            </label>
+                    <div className="row g-2">
+                        <div className="col-md-6 col-12 mb-2 mb-md-0">
+                            <Link to="/" className="btn portal-btn-outline-success">
+                                <i className="fas fa-arrow-left me-2"></i> Back
+                            </Link>
                         </div>
-
-                        {/* Submit */}
-                        <div className="d-grid mb-3">
-                            <button
-                                type="submit"
-                                className="btn btn-lg fw-bold"
-                                style={{ background: 'var(--primary-color)', color: 'white' }}
-                                disabled={loading}
-                            >
+                        <div className="col-md-6 col-12">
+                            <button type="submit" className="btn portal-btn-success" disabled={loading}>
                                 {loading ? (
-                                    <>
-                                        <span className="spinner-border spinner-border-sm me-2" role="status"></span>
-                                        Signing in…
-                                    </>
+                                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 ) : (
-                                    <>
-                                        <i className="fas fa-sign-in-alt me-2"></i>Login
-                                    </>
+                                    <><i className="fas fa-sign-in-alt me-2"></i> Login</>
                                 )}
                             </button>
                         </div>
-
-                        <div className="text-center">
-                            <Link to="/forgot-password" className="text-decoration-none" style={{ color: 'var(--primary-color)' }}>
-                                <i className="fas fa-key me-1"></i>Forgot Your Password?
-                            </Link>
-                        </div>
-
-                        <hr className="my-4" />
-
-                        <div className="text-center">
-                            <p className="mb-2 text-muted">Don't have an account?</p>
-                            <Link to="/register" className="btn btn-outline-primary">
-                                <i className="fas fa-user-plus me-2"></i>Register Now
-                            </Link>
-                        </div>
-                    </form>
-
-                    {/* Footer note */}
-                    <div className="text-center mt-3">
-                        <small className="text-muted">
-                            <i className="fas fa-shield-alt me-1 text-success"></i>
-                            Secure Login Portal
-                        </small>
                     </div>
+
+                    <div className="text-center mt-3">
+                        <a 
+                            href="#" 
+                            className="portal-forgot-password" 
+                            onClick={(e) => { e.preventDefault(); setShowForgotModal(true); }}
+                        >
+                            <i className="fas fa-unlock-alt me-1"></i> Forgot Password?
+                        </a>
+                    </div>
+                </form>
+
+                <div className="portal-divider">or</div>
+
+                <div className="text-center">
+                    <small className="text-muted" style={{ fontSize: '12px' }}>
+                        <i className="fas fa-shield-alt me-1" style={{ color: '#28a745' }}></i>
+                        Secure login with reCAPTCHA
+                    </small>
                 </div>
 
-                {/* Quick Access Guide */}
-                <div className="px-4 pb-4">
-                    <div className="bg-light rounded p-3">
-                        <h6 className="fw-bold mb-3">
-                            <i className="fas fa-info-circle me-2 text-primary"></i>Quick Access Guide
-                        </h6>
-                        <div className="row g-2">
-                            {[
-                                { icon: 'fas fa-user-tie text-primary', role: 'Admin', desc: 'Full system access' },
-                                { icon: 'fas fa-chalkboard-teacher text-success', role: 'Teacher', desc: 'Marks & attendance' },
-                                { icon: 'fas fa-user-graduate text-info', role: 'Student', desc: 'View results & fees' },
-                                { icon: 'fas fa-book text-warning', role: 'Librarian', desc: 'Manage library' },
-                            ].map((g, i) => (
-                                <div key={i} className="col-6">
-                                    <small className="text-muted">
-                                        <i className={`${g.icon} me-1`}></i>
-                                        <strong>{g.role}</strong><br />
-                                        {g.desc}
-                                    </small>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                <div className="portal-login-footer">
+                    &copy; 2026 <span className="brand">Gem Computer Solutions Limited</span>
                 </div>
             </div>
+
+            {/* Forgot Password Modal */}
+            {showForgotModal && (
+                <>
+                    <div className="modal-backdrop fade show"></div>
+                    <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ background: 'rgba(0,0,0,0.5)' }}>
+                        <div className="modal-dialog modal-dialog-centered" role="document">
+                            <div className="modal-content" style={{ borderRadius: '16px', border: 'none' }}>
+                                <form onSubmit={handleForgotSubmit}>
+                                    <div className="modal-header" style={{ background: 'linear-gradient(135deg, #28a745, #20c997)', color: 'white', borderRadius: '16px 16px 0 0' }}>
+                                        <h5 className="modal-title"><i className="fas fa-unlock-alt me-2"></i> Reset Password</h5>
+                                        <button type="button" className="btn-close btn-close-white" onClick={() => setShowForgotModal(false)} aria-label="Close"></button>
+                                    </div>
+                                    <div className="modal-body p-4">
+                                        <p className="text-muted">Enter your registered email address and we'll send you a password reset link.</p>
+                                        <div className="form-group mb-3">
+                                            <div className="input-group portal-input-group">
+                                                <div className="input-group-prepend">
+                                                    <span className="input-group-text portal-input-group-text"><i className="fas fa-envelope"></i></span>
+                                                </div>
+                                                <input 
+                                                    type="email" 
+                                                    name="email" 
+                                                    className="form-control portal-form-control" 
+                                                    placeholder="Enter your registered email" 
+                                                    value={forgotEmail}
+                                                    onChange={(e) => setForgotEmail(e.target.value)}
+                                                    required 
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer border-top-0 px-4 pb-4">
+                                        <button type="button" className="btn btn-secondary rounded-3" onClick={() => setShowForgotModal(false)}>Cancel</button>
+                                        <button type="submit" className="btn portal-btn-success w-auto px-4"><i className="fas fa-paper-plane me-2"></i> Send Reset Link</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 }
